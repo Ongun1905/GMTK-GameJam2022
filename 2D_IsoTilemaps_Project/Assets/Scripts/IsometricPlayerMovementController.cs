@@ -15,6 +15,8 @@ public class IsometricPlayerMovementController : MonoBehaviour
     Vector2 direction;
     Rigidbody2D rbody;
 
+    public bool moveAllowed = false;
+
     private void Awake()
     {
         rbody = GetComponent<Rigidbody2D>();
@@ -31,37 +33,28 @@ public class IsometricPlayerMovementController : MonoBehaviour
 
     
 
-    private void Move(int incrementValue)
+    public void Move()
     {
-        Debug.Log(incrementValue);
-        if (waypointIndex < waypoints.Length - 1)
+        if (waypointIndex <= waypoints.Length - 1)
         {
             rbody.MovePosition(waypoints[waypointIndex].transform.position);
+
             if (transform.position == waypoints[waypointIndex].transform.position)
             {
                 waypointIndex += 1;
             }
-        } else
-        {
-            waypointIndex = 0;
-            rbody.MovePosition(waypoints[waypointIndex].transform.position);
-            
         }
 
     }
 
-    private void Update()
+    public void Update()
     {
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+        if(moveAllowed)
         {
-            Move(RandomNumberGenerator());
+            Move();
         }
     }
 
-    int RandomNumberGenerator()
-    {
-        return UnityEngine.Random.Range(1, 6);
-    }
 
     // Update is called once per frame
     void FixedUpdate()
