@@ -31,13 +31,12 @@ public class IsometricPlayerMovementController : MonoBehaviour
 
     
 
-    private void Move()
+    private void Move(int incrementValue)
     {
-        
+        Debug.Log(incrementValue);
         if (waypointIndex < waypoints.Length - 1)
         {
             rbody.MovePosition(waypoints[waypointIndex].transform.position);
-            
             if (transform.position == waypoints[waypointIndex].transform.position)
             {
                 waypointIndex += 1;
@@ -49,17 +48,20 @@ public class IsometricPlayerMovementController : MonoBehaviour
             
         }
 
-        
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-            Move();
+            Move(RandomNumberGenerator());
         }
     }
 
+    int RandomNumberGenerator()
+    {
+        return UnityEngine.Random.Range(1, 6);
+    }
 
     // Update is called once per frame
     void FixedUpdate()
