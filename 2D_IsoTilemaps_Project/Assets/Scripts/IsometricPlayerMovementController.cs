@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,26 +9,62 @@ public class IsometricPlayerMovementController : MonoBehaviour
     public float movementSpeed = 1f;
     IsometricCharacterRenderer isoRenderer;
 
+    public Transform[] waypoints;
+    public int waypointIndex = 0;
+
+    Vector2 direction;
     Rigidbody2D rbody;
 
     private void Awake()
     {
         rbody = GetComponent<Rigidbody2D>();
         isoRenderer = GetComponentInChildren<IsometricCharacterRenderer>();
+       
+    }
+
+    private void Start()
+    {
+        transform.position = waypoints[waypointIndex].transform.position;
+        isoRenderer.SetDirection(new Vector2(0f, -0.5f));
+
+    }
+
+    
+
+    private void Move()
+    {
+        
+        if (waypointIndex < waypoints.Length - 1)
+        {
+            rbody.MovePosition(waypoints[waypointIndex].transform.position);
+            
+            if (transform.position == waypoints[waypointIndex].transform.position)
+            {
+                waypointIndex += 1;
+            }
+        } else
+        {
+            waypointIndex = 0;
+            rbody.MovePosition(waypoints[waypointIndex].transform.position);
+            
+        }
+
+        
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            Move();
+        }
     }
 
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        Vector2 currentPos = rbody.position;
-        float horizontalInput = Input.GetAxis("Horizontal");
-        float verticalInput = Input.GetAxis("Vertical");
-        Vector2 inputVector = new Vector2(horizontalInput, verticalInput);
-        inputVector = Vector2.ClampMagnitude(inputVector, 1);
-        Vector2 movement = inputVector * movementSpeed;
-        Vector2 newPos = currentPos + movement * Time.fixedDeltaTime;
-        isoRenderer.SetDirection(movement);
-        rbody.MovePosition(newPos);
+        
+
     }
 }
