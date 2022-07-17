@@ -4,27 +4,36 @@ using UnityEngine;
 
 public class EncounterController : MonoBehaviour
 {
-    [SerializeField] GameObject Player;
-    [SerializeField] Vector3 PlayerEncounterPosition;
+    [SerializeField] GameObject player;
+    [SerializeField] Vector3 playerEncounterPostion;
+    [SerializeField] Vector3 enemyEncounterPosition;
+
+    [SerializeField] GameObject[] enemyPrefabs;
     
     private IsometricCharacterRenderer isoRenderer;
 
     private void Start()
     {
-        isoRenderer = Player.GetComponentInChildren<IsometricCharacterRenderer>();
+        isoRenderer = player.GetComponentInChildren<IsometricCharacterRenderer>();
 
-        SetPlayerToEncounterPosition();
+        StartEncounter();
     }
 
     private void SetPlayerToEncounterPosition()
     {
-        Player.transform.position = PlayerEncounterPosition;
-        isoRenderer.SetDirection(new Vector2(0f, -1f));
+        player.transform.position = playerEncounterPostion;
+        isoRenderer.SetStaticDirection(new Vector2(- Mathf.Sqrt(0.5f), Mathf.Sqrt(0.5f)));
+    }
+
+    private void SpawnRandomEnemy()
+    {
+        int randomIndex = Random.Range(0, enemyPrefabs.Length - 1);
+        GameObject newEnemy = Instantiate(enemyPrefabs[randomIndex], enemyEncounterPosition, Quaternion.identity);
     }
 
     public void StartEncounter()
     {
         SetPlayerToEncounterPosition();
-        
+        SpawnRandomEnemy();
     }
 }
