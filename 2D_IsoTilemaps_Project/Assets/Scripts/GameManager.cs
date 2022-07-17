@@ -19,13 +19,14 @@ public class GameManager : MonoBehaviour
 
     public static GameManager gm;
     // Start is called before the first frame update
+    
+
+
     public void Start()
     {
         
-        
-        gm = GetComponent<GameManager>();
         sh = GetComponent<SoundHandler>();
-
+        gm = GetComponent<GameManager>();
         if (SceneManager.GetActiveScene().buildIndex == 0)
         {
             sh.playMenuMusic();
@@ -34,13 +35,14 @@ public class GameManager : MonoBehaviour
             sh.stopMenuMusic();
         }
 
+
         if (SceneManager.GetActiveScene().buildIndex == 1 )
         {
-            sh.playBackgroundMusic();
             player = GameObject.FindGameObjectWithTag("Player");
             playerController = player.GetComponent<IsometricPlayerMovementController>();
         }
-        
+
+
     }
 
     // Update is called once per frame
@@ -55,6 +57,8 @@ public class GameManager : MonoBehaviour
             }
 
         }
+
+       
 
 
 
