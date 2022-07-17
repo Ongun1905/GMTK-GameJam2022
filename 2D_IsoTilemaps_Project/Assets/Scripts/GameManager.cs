@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour
 
     IsometricPlayerMovementController playerController;
 
+    SoundHandler sh;
+
 
     public static GameManager gm;
     // Start is called before the first frame update
@@ -22,6 +24,8 @@ public class GameManager : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         playerController = player.GetComponent<IsometricPlayerMovementController>();
         gm = GetComponent<GameManager>();
+        sh = GetComponent<SoundHandler>();
+        sh.playBackground();
     }
 
     // Update is called once per frame
@@ -31,6 +35,8 @@ public class GameManager : MonoBehaviour
             playerStartWaypoint + diceSideThrown) {
             playerStartWaypoint = playerController.waypointIndex - 1;
        }
+
+        
 
     }
 
