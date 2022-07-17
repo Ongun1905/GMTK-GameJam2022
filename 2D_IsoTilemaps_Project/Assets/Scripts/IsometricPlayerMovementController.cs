@@ -35,31 +35,12 @@ public class IsometricPlayerMovementController : MonoBehaviour
 
     public void Move()
     {
-        if (waypointIndex <= waypoints.Length - 1)
-        {
-            rbody.MovePosition(waypoints[waypointIndex].transform.position);
-
-            if (transform.position == waypoints[waypointIndex].transform.position)
-            {
-                waypointIndex += 1;
-            }
-        }
+        waypointIndex++;
+        waypointIndex %= waypoints.Length;
+        Vector2 nextPos = waypoints[waypointIndex].transform.position;
+        rbody.MovePosition(nextPos);
 
     }
 
-    public void Update()
-    {
-        if(moveAllowed)
-        {
-            Move();
-        }
-    }
-
-
-    // Update is called once per frame
-    void FixedUpdate()
-    {
-        
-
-    }
+  
 }
