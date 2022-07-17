@@ -636,8 +636,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6d1f2f89d82dbc4387f6a9c5d261747, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player: {fileID: 493479618}
-  PlayerEncounterPosition: {x: -0.5, y: 0.5, z: 0}
+  player: {fileID: 493479618}
+  playerEncounterPostion: {x: 1.5, y: -0.5, z: 0}
+  enemyEncounterPosition: {x: -0.5, y: 0.5, z: 0}
+  enemyPrefabs:
+  - {fileID: 5816179971437252719, guid: 1172a562c2c83db4c8f18c37587ddbf8, type: 3}
 --- !u!4 &591490885
 Transform:
   m_ObjectHideFlags: 0
@@ -673,12 +676,12 @@ PrefabInstance:
     - target: {fileID: 3339481645408498932, guid: 5e2a82902b6ea4c0b9b652322ffadcff,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.5
+      value: -2.51
       objectReference: {fileID: 0}
     - target: {fileID: 3339481645408498932, guid: 5e2a82902b6ea4c0b9b652322ffadcff,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.5
+      value: -0.45
       objectReference: {fileID: 0}
     - target: {fileID: 3339481645408498932, guid: 5e2a82902b6ea4c0b9b652322ffadcff,
         type: 3}

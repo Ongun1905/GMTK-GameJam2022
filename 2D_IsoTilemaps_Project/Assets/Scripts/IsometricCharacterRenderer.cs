@@ -44,6 +44,12 @@ public class IsometricCharacterRenderer : MonoBehaviour
         animator.Play(directionArray[lastDirection]);
     }
 
+    public void SetStaticDirection(Vector2 direction)
+    {
+        int directionIndex = DirectionToIndex(direction, 8);
+        animator.Play(staticDirections[directionIndex]);
+    }
+
     //helper functions
 
     //this function converts a Vector2 direction to an index to a slice around a circle
