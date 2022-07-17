@@ -21,7 +21,6 @@ public class GameManager : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         playerController = player.GetComponent<IsometricPlayerMovementController>();
         gm = GetComponent<GameManager>();
-        playerController.moveAllowed = false;
     }
 
     // Update is called once per frame
@@ -30,20 +29,19 @@ public class GameManager : MonoBehaviour
        if(playerController.waypointIndex >
             playerStartWaypoint + diceSideThrown) {
             playerStartWaypoint = playerController.waypointIndex - 1;
-            playerController.moveAllowed = false;
        }
 
-        if (playerController.waypointIndex ==
-            playerController.waypoints.Length)
-        {
-            playerStartWaypoint = 0;
-        }
-
-
     }
 
-    public void MovePlayer()
+    public IEnumerator MovePlayer()
     {
-        playerController.moveAllowed = true;
+        for (int i = 0; i < diceSideThrown; i++)
+        {
+            playerController.Move();
+            yield return new WaitForSeconds(0.5f);
+        }
     }
+
+
+    
 }
