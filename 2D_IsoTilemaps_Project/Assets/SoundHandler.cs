@@ -8,6 +8,7 @@ public class SoundHandler : MonoBehaviour
 
     private AudioSource backgroundMusic;
     private AudioSource mainMenuMusic;
+    private AudioSource encounterMusic;
     // Start is called before the first frame update
     void Start()
     {
@@ -15,21 +16,13 @@ public class SoundHandler : MonoBehaviour
 
         backgroundMusic = audioSources[0];
         mainMenuMusic = audioSources[1];
+        encounterMusic = audioSources[2];
     }
 
-    public void playBackgroundMusic()
+   public void changeBGM(int index, int newIndex)
     {
-        backgroundMusic.Play();
-    }
+        audioSources[index].Stop();
+        audioSources[newIndex].Play();
 
-    public void playMenuMusic()
-    {
-        mainMenuMusic.Play();
     }
-
-    public void stopMenuMusic()
-    {
-        mainMenuMusic.Stop();
-    }
-
 }

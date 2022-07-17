@@ -1229,6 +1229,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
+    - target: {fileID: 5140456314312106510, guid: 899475f682599aa4db0184c4a85eace1,
+        type: 3}
+      propertyPath: mainMusic
+      value: 
+      objectReference: {fileID: 8300000, guid: ea636a1eb4b31e7488e226c568aeefde, type: 3}
+    - target: {fileID: 5140456314312106510, guid: 899475f682599aa4db0184c4a85eace1,
+        type: 3}
+      propertyPath: menuMusic
+      value: 
+      objectReference: {fileID: 8300000, guid: 5f966284ae6a1d4438f2b9958b23aae7, type: 3}
+    - target: {fileID: 5140456314312106510, guid: 899475f682599aa4db0184c4a85eace1,
+        type: 3}
+      propertyPath: encounterClip
+      value: 
+      objectReference: {fileID: 8300000, guid: dff6a137f896c8b4290495e4653a3524, type: 3}
     - target: {fileID: 5140456314312106511, guid: 899475f682599aa4db0184c4a85eace1,
         type: 3}
       propertyPath: m_RootOrder
@@ -1284,7 +1299,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 77725894, guid: 899475f682599aa4db0184c4a85eace1, type: 3}
+    - {fileID: 863651932, guid: 899475f682599aa4db0184c4a85eace1, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 899475f682599aa4db0184c4a85eace1, type: 3}
 --- !u!4 &1226100776 stripped
 Transform:
