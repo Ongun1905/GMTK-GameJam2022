@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -16,27 +17,46 @@ public class GameManager : MonoBehaviour
 
     SoundHandler sh;
 
-
     public static GameManager gm;
     // Start is called before the first frame update
     public void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
-        playerController = player.GetComponent<IsometricPlayerMovementController>();
+        
+        
         gm = GetComponent<GameManager>();
         sh = GetComponent<SoundHandler>();
-        sh.playBackground();
+
+        if (SceneManager.GetActiveScene().buildIndex == 0)
+        {
+            sh.playMenuMusic();
+        } else
+        {
+            sh.stopMenuMusic();
+        }
+
+        if (SceneManager.GetActiveScene().buildIndex == 1 )
+        {
+            sh.playBackgroundMusic();
+            player = GameObject.FindGameObjectWithTag("Player");
+            playerController = player.GetComponent<IsometricPlayerMovementController>();
+        }
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-       if(playerController.waypointIndex >
-            playerStartWaypoint + diceSideThrown) {
-            playerStartWaypoint = playerController.waypointIndex - 1;
-       }
+       if(playerController != null)
+        {
+            if (playerController.waypointIndex >
+            playerStartWaypoint + diceSideThrown)
+            {
+                playerStartWaypoint = playerController.waypointIndex - 1;
+            }
 
-        
+        }
+
+
 
     }
 
@@ -49,6 +69,4 @@ public class GameManager : MonoBehaviour
         }
     }
 
-
-    
 }
