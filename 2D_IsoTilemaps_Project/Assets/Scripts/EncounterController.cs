@@ -16,7 +16,7 @@ public class EncounterController : MonoBehaviour
     {
         isoRenderer = player.GetComponentInChildren<IsometricCharacterRenderer>();
 
-        StartEncounter();
+        //StartEncounter();
     }
 
     private void SetPlayerToEncounterPosition()
