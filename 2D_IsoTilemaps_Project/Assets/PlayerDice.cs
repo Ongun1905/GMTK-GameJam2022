@@ -7,15 +7,12 @@ public class PlayerDice : MonoBehaviour
     private Sprite[] diceSides;
     private SpriteRenderer rend;
 
-    
-
     // Start is called before the first frame update
     void Start()
     {
         rend = GetComponent<SpriteRenderer>();
         diceSides = Resources.LoadAll<Sprite>("Dice/");
         rend.sprite = diceSides[5];
-        
     }
 
     private void OnMouseDown()

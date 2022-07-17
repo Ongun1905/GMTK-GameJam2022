@@ -19,7 +19,10 @@ public class GameManager : MonoBehaviour
     public void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        playerController = player.GetComponent<IsometricPlayerMovementController>();        gm = GetComponent<GameManager>();        playerController.moveAllowed = false;    }
+        playerController = player.GetComponent<IsometricPlayerMovementController>();
+        gm = GetComponent<GameManager>();
+        playerController.moveAllowed = false;
+    }
 
     // Update is called once per frame
     void Update()
