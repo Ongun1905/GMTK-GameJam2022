@@ -18,7 +18,6 @@ public class IsometricCharacterRenderer : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
-
     public void SetDirection(Vector2 direction){
 
         //use the Run states by default

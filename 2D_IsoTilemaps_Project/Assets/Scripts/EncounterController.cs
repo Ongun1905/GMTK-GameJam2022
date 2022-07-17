@@ -75,6 +75,10 @@ public class EncounterController : MonoBehaviour
 
             // Increment the player's score
             playerStatsController.IncrementScore(10);
+
+            // Play main track
+            GameManager.gm.PlayMainMusic();
+            GameManager.inEncounterMusic = false;
         } else
         {
             // Back to main menu (destroy all by swapping scenes)

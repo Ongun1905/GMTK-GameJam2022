@@ -31,15 +31,12 @@ public class IsometricPlayerMovementController : MonoBehaviour
 
     }
 
-    
-
     public void Move()
     {
         waypointIndex++;
         waypointIndex %= waypoints.Length;
         Vector2 nextPos = waypoints[waypointIndex].transform.position;
         rbody.MovePosition(nextPos);
-        
     }
 
     
