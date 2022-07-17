@@ -7,6 +7,9 @@ public class GameManager : MonoBehaviour
 {
     public static bool gameOver = true;
     public static bool inEncounter = false;
+    public static bool inEncounterMusic = false;
+    public static bool encounterOccurredOnSquare = false;
+    private static bool isMoving = false;
 
     public static GameObject player;
 
@@ -60,16 +63,22 @@ public class GameManager : MonoBehaviour
                 playerStartWaypoint = playerController.waypointIndex - 1;
             }
 
+            int[] encounterSquares = { 3, 13, 21, 25, 28, 33 };
 
-            if (playerController.waypointIndex == 9 || playerController.waypointIndex == 25)
+
+
+            if (System.Array.Exists(encounterSquares, element => element == playerController.waypointIndex) && !encounterOccurredOnSquare && !isMoving)
             {
-                if(inEncounter == false) {
+                encounterOccurredOnSquare = true;
+
+                if (inEncounterMusic == false) {
                     PlayEncounterMusic();
-                    inEncounter = true;
+                    inEncounterMusic = true;
                 }
                 
                 Debug.Log("call encounter function");
-
+                EncounterController encounterController = gameObject.GetComponent<EncounterController>();
+                encounterController.StartEncounter(playerController.waypointIndex);
             }
 
         }
@@ -99,11 +108,26 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator MovePlayer()
     {
+        if (encounterOccurredOnSquare)
+        {
+            encounterOccurredOnSquare = false;
+        }
+
+        isMoving = true;
+
         for (int i = 0; i < diceSideThrown; i++)
         {
             playerController.Move();
             yield return new WaitForSeconds(0.5f);
+
+            if (playerController.waypointIndex == 0)
+            {
+                PlayerStatsController psc = player.GetComponent<PlayerStatsController>();
+                psc.IncrementScore(100);
+            }
         }
+
+        isMoving = false;
     }
 
 }
