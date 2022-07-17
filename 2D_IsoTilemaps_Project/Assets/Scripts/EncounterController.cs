@@ -11,23 +11,24 @@ public class EncounterController : MonoBehaviour
     [SerializeField] Vector3 enemyEncounterPosition;
 
     [SerializeField] GameObject[] enemyPrefabs;
-    
+
     private IsometricCharacterRenderer isoRenderer;
+    private IsometricPlayerMovementController playerMovementController;
     private int lastTileIndex;
 
     private void Start()
     {
         enemyDice.SetActive(false);
         isoRenderer = player.GetComponentInChildren<IsometricCharacterRenderer>();
-
-        StartCoroutine(TestStart());
+        playerMovementController = player.GetComponent<IsometricPlayerMovementController>();
     }
 
-    IEnumerator TestStart ()
+    private void Update()
     {
-        yield return new WaitForSeconds(0.1f);
-        StartEncounter(0);
-
+        if (Input.GetKeyDown("e"))
+        {
+            StartEncounter(0);
+        }
     }
 
     private void SetPlayerToEncounterPosition()
@@ -53,6 +54,26 @@ public class EncounterController : MonoBehaviour
         GameObject enemy = SpawnRandomEnemy();
 
         Encounter newEncounter = gameObject.AddComponent<Encounter>();
-        newEncounter.InitializeEncounter(enemy, enemyDice, playerDice);
+        newEncounter.InitializeEncounter(enemy, enemyDice, playerDice, player);
+    }
+
+    public void StopEncounter(bool encounterWon)
+    {
+        // Set encounter meta variables
+        GameManager.inEncounter = false;
+        enemyDice.SetActive(false);
+
+        if (encounterWon)
+        {
+            // Destroy enemy gameobject
+
+            // Teleport the player back to their last position
+            player.transform.position = playerMovementController.waypoints[lastTileIndex].transform.position;
+            isoRenderer.SetDirection(new Vector2(-Mathf.Sqrt(0.5f), Mathf.Sqrt(0.5f)));
+        } else
+        {
+            // Back to main menu (destroy all)
+
+        }
     }
 }

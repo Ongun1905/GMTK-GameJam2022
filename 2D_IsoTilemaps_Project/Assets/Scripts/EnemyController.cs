@@ -29,8 +29,14 @@ public class EnemyController : MonoBehaviour
         }
     }
 
+    public int GetHealth()
+    {
+        return health;
+    }
+
     private void KillEnemy()
     {
-
+        // Destroy gameobject
+        Debug.Log("TODO: Destroy KillEnemy");
     }
 }
