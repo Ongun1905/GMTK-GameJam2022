@@ -328,7 +328,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &329929853
 Transform:
   m_ObjectHideFlags: 0
@@ -1954,7 +1954,7 @@ GameObject:
   - component: {fileID: 1356329880}
   - component: {fileID: 1356329882}
   m_Layer: 0
-  m_Name: Dice
+  m_Name: PlayerDice
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12927,6 +12927,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1433835036}
+  enemyDice: {fileID: 329929852}
+  playerDice: {fileID: 1356329878}
   playerEncounterPostion: {x: 1.5, y: -0.5, z: 0}
   enemyEncounterPosition: {x: -0.5, y: 0.5, z: 0}
   enemyPrefabs:
