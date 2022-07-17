@@ -38,7 +38,6 @@ public class PlayerStatsController : MonoBehaviour
         if (playerHealth <= 0)
         {
             playerHealth = 0;
-            Debug.Log("Player health is 0, queue game end!");
         }
         healthBar.SetHealth(playerHealth);
     }

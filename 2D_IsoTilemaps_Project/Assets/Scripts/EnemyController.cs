@@ -36,7 +36,6 @@ public class EnemyController : MonoBehaviour
 
     private void KillEnemy()
     {
-        // Destroy gameobject
-        Debug.Log("TODO: Destroy KillEnemy");
+        Destroy(gameObject);
     }
 }

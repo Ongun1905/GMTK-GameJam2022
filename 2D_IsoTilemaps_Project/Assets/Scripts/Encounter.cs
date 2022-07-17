@@ -27,7 +27,6 @@ public class Encounter : MonoBehaviour
     {
         yield return new WaitUntil(() => playerDiceController.GetDiceRolledSinceLastReset() == true); // Wait unitl the player has rolled
         playerDiceController.ResetDiceRolled(); // We reset the boolean telling us the player rolled to false
-        Debug.Log("[Encounter]    Player Rolled");
         rolled = true;
     }
 
@@ -36,7 +35,6 @@ public class Encounter : MonoBehaviour
         StartCoroutine(enemyDiceController.RollTheDice()); // Roll for the enemy (duhhh)
         yield return new WaitUntil(() => enemyDiceController.GetDiceRolledSinceLastReset() == true); // Wait until the enemy rolled COMPLETELY
         enemyDiceController.ResetDiceRolled(); // Reset the boolean telling us it rolled to false
-        Debug.Log("[Encounter]    Enemy rolled");
         rolled = true;
     }
 
@@ -63,12 +61,9 @@ public class Encounter : MonoBehaviour
 
     private IEnumerator PlayerTurn()
     {
-        Debug.Log("[Encounter]    Player's turn starting!");
         StartCoroutine(PlayerRoll());
         yield return new WaitUntil(() => rolled == true);
         rolled = false;
-
-        Debug.Log("[Encounter]    === Player's waituntil finished ===");
 
         int playerDamage = GameManager.diceSideThrown;
         enemyController.ModifyHealth(-playerDamage);
@@ -85,7 +80,6 @@ public class Encounter : MonoBehaviour
 
     private IEnumerator EnemyTurn()
     {
-        Debug.Log("[Encounter]    Enemy's turn starting!");
         StartCoroutine(EnemyRoll());
         yield return new WaitUntil(() => rolled == true);
         rolled = false;

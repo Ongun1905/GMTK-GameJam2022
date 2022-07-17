@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class EncounterController : MonoBehaviour
 {
@@ -12,8 +13,10 @@ public class EncounterController : MonoBehaviour
 
     [SerializeField] GameObject[] enemyPrefabs;
 
+    private GameObject enemy;
     private IsometricCharacterRenderer isoRenderer;
     private IsometricPlayerMovementController playerMovementController;
+    private PlayerStatsController playerStatsController;
     private int lastTileIndex;
 
     private void Start()
@@ -21,13 +24,14 @@ public class EncounterController : MonoBehaviour
         enemyDice.SetActive(false);
         isoRenderer = player.GetComponentInChildren<IsometricCharacterRenderer>();
         playerMovementController = player.GetComponent<IsometricPlayerMovementController>();
+        playerStatsController = player.GetComponent<PlayerStatsController>();
     }
 
     private void Update()
     {
         if (Input.GetKeyDown("e"))
         {
-            StartEncounter(0);
+            StartEncounter(playerMovementController.waypointIndex);
         }
     }
 
@@ -51,7 +55,7 @@ public class EncounterController : MonoBehaviour
         enemyDice.SetActive(true);
 
         SetPlayerToEncounterPosition();
-        GameObject enemy = SpawnRandomEnemy();
+        enemy = SpawnRandomEnemy();
 
         Encounter newEncounter = gameObject.AddComponent<Encounter>();
         newEncounter.InitializeEncounter(enemy, enemyDice, playerDice, player);
@@ -65,15 +69,17 @@ public class EncounterController : MonoBehaviour
 
         if (encounterWon)
         {
-            // Destroy enemy gameobject
-
             // Teleport the player back to their last position
             player.transform.position = playerMovementController.waypoints[lastTileIndex].transform.position;
-            isoRenderer.SetDirection(new Vector2(-Mathf.Sqrt(0.5f), Mathf.Sqrt(0.5f)));
+            isoRenderer.SetDirection(new Vector2(0f, -0.5f));
+
+            // Increment the player's score
+            playerStatsController.IncrementScore(10);
         } else
         {
-            // Back to main menu (destroy all)
-
+            // Back to main menu (destroy all by swapping scenes)
+            Debug.Log("You died lmao");
+            SceneManager.LoadScene(0);
         }
     }
 }
