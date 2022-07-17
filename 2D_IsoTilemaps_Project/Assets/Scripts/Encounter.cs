@@ -10,4 +10,9 @@ public class Encounter : MonoBehaviour
     private void Update()
     {
     }
+
+    private void InitiativeRoll()
+    {
+        while (!rollButtonClicked) { } // We wait until player rolls for initiative
+    }
 }

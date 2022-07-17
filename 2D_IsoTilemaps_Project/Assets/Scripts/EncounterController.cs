@@ -11,12 +11,20 @@ public class EncounterController : MonoBehaviour
     [SerializeField] GameObject[] enemyPrefabs;
     
     private IsometricCharacterRenderer isoRenderer;
+    private int lastTileIndex;
 
     private void Start()
     {
         isoRenderer = player.GetComponentInChildren<IsometricCharacterRenderer>();
 
-        //StartEncounter();
+        StartCoroutine(TestStart());
+    }
+
+    IEnumerator TestStart ()
+    {
+        yield return new WaitForSeconds(0.1f);
+        StartEncounter(0);
+
     }
 
     private void SetPlayerToEncounterPosition()
@@ -31,8 +39,10 @@ public class EncounterController : MonoBehaviour
         GameObject newEnemy = Instantiate(enemyPrefabs[randomIndex], enemyEncounterPosition, Quaternion.identity);
     }
 
-    public void StartEncounter()
+    public void StartEncounter(int indexEncounterTile)
     {
+        lastTileIndex = indexEncounterTile;
+
         SetPlayerToEncounterPosition();
         SpawnRandomEnemy();
     }
