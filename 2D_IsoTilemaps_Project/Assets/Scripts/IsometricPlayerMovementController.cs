@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,26 +9,35 @@ public class IsometricPlayerMovementController : MonoBehaviour
     public float movementSpeed = 1f;
     IsometricCharacterRenderer isoRenderer;
 
+    public Transform[] waypoints;
+    public int waypointIndex = 0;
+
+    Vector2 direction;
     Rigidbody2D rbody;
+
+    public bool moveAllowed = false;
 
     private void Awake()
     {
         rbody = GetComponent<Rigidbody2D>();
         isoRenderer = GetComponentInChildren<IsometricCharacterRenderer>();
+       
     }
 
-
-    // Update is called once per frame
-    void FixedUpdate()
+    private void Start()
     {
-        Vector2 currentPos = rbody.position;
-        float horizontalInput = Input.GetAxis("Horizontal");
-        float verticalInput = Input.GetAxis("Vertical");
-        Vector2 inputVector = new Vector2(horizontalInput, verticalInput);
-        inputVector = Vector2.ClampMagnitude(inputVector, 1);
-        Vector2 movement = inputVector * movementSpeed;
-        Vector2 newPos = currentPos + movement * Time.fixedDeltaTime;
-        isoRenderer.SetDirection(movement);
-        rbody.MovePosition(newPos);
+        transform.position = waypoints[waypointIndex].transform.position;
+        isoRenderer.SetDirection(new Vector2(0f, -0.5f));
+
     }
+
+    public void Move()
+    {
+        waypointIndex++;
+        waypointIndex %= waypoints.Length;
+        Vector2 nextPos = waypoints[waypointIndex].transform.position;
+        rbody.MovePosition(nextPos);
+    }
+
+    
 }

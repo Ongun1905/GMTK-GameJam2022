@@ -18,7 +18,6 @@ public class IsometricCharacterRenderer : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
-
     public void SetDirection(Vector2 direction){
 
         //use the Run states by default
@@ -42,6 +41,12 @@ public class IsometricCharacterRenderer : MonoBehaviour
 
         //tell the animator to play the requested state
         animator.Play(directionArray[lastDirection]);
+    }
+
+    public void SetStaticDirection(Vector2 direction)
+    {
+        int directionIndex = DirectionToIndex(direction, 8);
+        animator.Play(staticDirections[directionIndex]);
     }
 
     //helper functions
