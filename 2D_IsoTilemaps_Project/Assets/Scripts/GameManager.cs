@@ -13,34 +13,40 @@ public class GameManager : MonoBehaviour
     public static int diceSideThrown = 0;
     public static int playerStartWaypoint = 0;
 
+    public AudioClip menuMusic;
+    public AudioClip mainMusic;
+    public AudioClip encounterClip;
+    private AudioSource audioSource;
+
     IsometricPlayerMovementController playerController;
 
     SoundHandler sh;
 
     public static GameManager gm;
     // Start is called before the first frame update
+    
+
+
     public void Start()
     {
-        
-        
-        gm = GetComponent<GameManager>();
+        audioSource = GetComponent<AudioSource>();
         sh = GetComponent<SoundHandler>();
+        gm = GetComponent<GameManager>();
 
         if (SceneManager.GetActiveScene().buildIndex == 0)
         {
-            sh.playMenuMusic();
-        } else
-        {
-            sh.stopMenuMusic();
-        }
+            PlayMenuMusic();
+        } 
+
 
         if (SceneManager.GetActiveScene().buildIndex == 1 )
         {
-            sh.playBackgroundMusic();
             player = GameObject.FindGameObjectWithTag("Player");
             playerController = player.GetComponent<IsometricPlayerMovementController>();
+            PlayMainMusic();
         }
-        
+
+
     }
 
     // Update is called once per frame
@@ -54,10 +60,41 @@ public class GameManager : MonoBehaviour
                 playerStartWaypoint = playerController.waypointIndex - 1;
             }
 
+
+            if (playerController.waypointIndex == 9 || playerController.waypointIndex == 25)
+            {
+                if(inEncounter == false) {
+                    PlayEncounterMusic();
+                    inEncounter = true;
+                }
+                
+                Debug.Log("call encounter function");
+
+            }
+
         }
 
+    }
 
+    public void PlayMenuMusic()
+    {
+        audioSource.Stop();
+        audioSource.loop = true;
+        audioSource.PlayOneShot(menuMusic);
+    }
 
+    public void PlayMainMusic()
+    {
+        audioSource.Stop();
+        audioSource.loop = true;
+        audioSource.PlayOneShot(mainMusic);
+    }
+
+    public void PlayEncounterMusic()
+    {
+        audioSource.Stop();
+        audioSource.loop = true;
+        audioSource.PlayOneShot(encounterClip);
     }
 
     public IEnumerator MovePlayer()
