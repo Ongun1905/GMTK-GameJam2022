@@ -5,6 +5,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static bool gameOver = true;
+    public static bool inEncounter = false;
 
     public static GameObject player;
 
@@ -12,6 +13,8 @@ public class GameManager : MonoBehaviour
     public static int playerStartWaypoint = 0;
 
     IsometricPlayerMovementController playerController;
+
+    SoundHandler sh;
 
 
     public static GameManager gm;
@@ -21,19 +24,20 @@ public class GameManager : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         playerController = player.GetComponent<IsometricPlayerMovementController>();
         gm = GetComponent<GameManager>();
+        sh = GetComponent<SoundHandler>();
+        sh.playBackground();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (playerController != null)
-        {
-            if (playerController.waypointIndex >
-                 playerStartWaypoint + diceSideThrown)
-            {
-                playerStartWaypoint = playerController.waypointIndex - 1;
-            }
-        }
+       if(playerController.waypointIndex >
+            playerStartWaypoint + diceSideThrown) {
+            playerStartWaypoint = playerController.waypointIndex - 1;
+       }
+
+        
+
     }
 
     public IEnumerator MovePlayer()
