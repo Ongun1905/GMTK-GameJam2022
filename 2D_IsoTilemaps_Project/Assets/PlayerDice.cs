@@ -31,7 +31,7 @@ public class PlayerDice : MonoBehaviour
         }
 
         GameManager.diceSideThrown = randomDiceSide + 1;
-        GameManager.gm.MovePlayer();
+        GameManager.gm.StartCoroutine(GameManager.gm.MovePlayer());
     }
 
    

@@ -39,8 +39,8 @@ public class IsometricPlayerMovementController : MonoBehaviour
         waypointIndex %= waypoints.Length;
         Vector2 nextPos = waypoints[waypointIndex].transform.position;
         rbody.MovePosition(nextPos);
-
+        
     }
 
-  
+    
 }

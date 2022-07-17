@@ -33,12 +33,15 @@ public class GameManager : MonoBehaviour
 
     }
 
-    public void MovePlayer()
+    public IEnumerator MovePlayer()
     {
         for (int i = 0; i < diceSideThrown; i++)
         {
             playerController.Move();
+            yield return new WaitForSeconds(0.5f);
         }
     }
 
+
+    
 }
