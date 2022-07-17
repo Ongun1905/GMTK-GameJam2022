@@ -2,16 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerDice : MonoBehaviour
+public class DiceController : MonoBehaviour
 {
     private Sprite[] diceSides;
     private SpriteRenderer rend;
 
+    private bool diceRolled = false;
+
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         rend = GetComponent<SpriteRenderer>();
         diceSides = Resources.LoadAll<Sprite>("Dice/");
+
         rend.sprite = diceSides[5];
     }
 
@@ -20,7 +23,7 @@ public class PlayerDice : MonoBehaviour
         StartCoroutine(RollTheDice());
     }
 
-    private IEnumerator RollTheDice()
+    public IEnumerator RollTheDice()
     {
         int randomDiceSide = 1;
         for (int i = 0; i <= 20; i++)
@@ -31,10 +34,23 @@ public class PlayerDice : MonoBehaviour
         }
 
         GameManager.diceSideThrown = randomDiceSide + 1;
-        GameManager.gm.StartCoroutine(GameManager.gm.MovePlayer());
+
+        if (!GameManager.inEncounter)
+        {
+            GameManager.gm.StartCoroutine(GameManager.gm.MovePlayer());
+        }
+        diceRolled = true;
     }
 
-   
+    public void ResetDiceRolled()
+    {
+        diceRolled = false;
+    }
+
+    public bool GetDiceRolledSinceLastReset()
+    {
+        return diceRolled;
+    }
 
     // Update is called once per frame
     void Update()

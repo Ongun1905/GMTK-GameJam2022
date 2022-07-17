@@ -5,6 +5,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static bool gameOver = true;
+    public static bool inEncounter = false;
 
     public static GameObject player;
 

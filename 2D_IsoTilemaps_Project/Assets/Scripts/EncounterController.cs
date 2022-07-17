@@ -5,6 +5,8 @@ using UnityEngine;
 public class EncounterController : MonoBehaviour
 {
     [SerializeField] GameObject player;
+    [SerializeField] GameObject enemyDice;
+    [SerializeField] GameObject playerDice;
     [SerializeField] Vector3 playerEncounterPostion;
     [SerializeField] Vector3 enemyEncounterPosition;
 
@@ -15,6 +17,7 @@ public class EncounterController : MonoBehaviour
 
     private void Start()
     {
+        enemyDice.SetActive(false);
         isoRenderer = player.GetComponentInChildren<IsometricCharacterRenderer>();
 
         StartCoroutine(TestStart());
@@ -33,17 +36,23 @@ public class EncounterController : MonoBehaviour
         isoRenderer.SetStaticDirection(new Vector2(- Mathf.Sqrt(0.5f), Mathf.Sqrt(0.5f)));
     }
 
-    private void SpawnRandomEnemy()
+    private GameObject SpawnRandomEnemy()
     {
         int randomIndex = Random.Range(0, enemyPrefabs.Length - 1);
         GameObject newEnemy = Instantiate(enemyPrefabs[randomIndex], enemyEncounterPosition, Quaternion.identity);
+        return newEnemy;
     }
 
     public void StartEncounter(int indexEncounterTile)
     {
+        GameManager.inEncounter = true;
         lastTileIndex = indexEncounterTile;
+        enemyDice.SetActive(true);
 
         SetPlayerToEncounterPosition();
-        SpawnRandomEnemy();
+        GameObject enemy = SpawnRandomEnemy();
+
+        Encounter newEncounter = gameObject.AddComponent<Encounter>();
+        newEncounter.InitializeEncounter(enemy, enemyDice, playerDice);
     }
 }
