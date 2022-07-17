@@ -7,28 +7,27 @@ public class Encounter : MonoBehaviour
     private EnemyController enemyController;
     private DiceController enemyDiceController;
     private DiceController playerDiceController;
+    private PlayerStatsController playerStatsController;
 
-    public void InitializeEncounter(GameObject enemy, GameObject enemyDice, GameObject playerDice)
+    private bool rolled = false;
+
+    public void InitializeEncounter(GameObject enemy, GameObject enemyDice, GameObject playerDice, GameObject player)
     {
         enemyController = enemy.GetComponent<EnemyController>();
         enemyDiceController = enemyDice.GetComponent<DiceController>();
         enemyDiceController.ResetDiceRolled();
         playerDiceController = playerDice.GetComponent<DiceController>();
         playerDiceController.ResetDiceRolled();
+        playerStatsController = player.GetComponent<PlayerStatsController>();
 
-        InitiativeRoll();
-    }
-
-    private void Start()
-    {
-        
+        StartCoroutine(InitiativeRoll());
     }
 
     private IEnumerator PlayerRoll()
     {
         yield return new WaitUntil(() => playerDiceController.GetDiceRolledSinceLastReset() == true); // Wait unitl the player has rolled
         playerDiceController.ResetDiceRolled(); // We reset the boolean telling us the player rolled to false
-        Debug.Log("Player Rolled");
+        rolled = true;
     }
 
     private IEnumerator EnemyRoll()
@@ -36,37 +35,66 @@ public class Encounter : MonoBehaviour
         StartCoroutine(enemyDiceController.RollTheDice()); // Roll for the enemy (duhhh)
         yield return new WaitUntil(() => enemyDiceController.GetDiceRolledSinceLastReset() == true); // Wait until the enemy rolled COMPLETELY
         enemyDiceController.ResetDiceRolled(); // Reset the boolean telling us it rolled to false
-        Debug.Log("Enemy rolled");
+        rolled = true;
     }
 
-    private void InitiativeRoll()
+    private IEnumerator InitiativeRoll()
     {
         StartCoroutine(PlayerRoll());
+        yield return new WaitUntil(() => rolled == true);
+        rolled = false;
         int playerInitiative = GameManager.diceSideThrown; // We store the number thrown by player.
 
         StartCoroutine(EnemyRoll());
+        yield return new WaitUntil(() => rolled == true);
+        rolled = false;
         int enemyInitiative = GameManager.diceSideThrown; // We store the number thrown by the enemy.
 
         if (playerInitiative >= enemyInitiative)
         {
-            PlayerTurn();
+            StartCoroutine(PlayerTurn());
         } else
         {
-            PlayerTurn();
+            StartCoroutine(EnemyTurn());
         }
     }
 
-    private void PlayerTurn()
+    private IEnumerator PlayerTurn()
     {
-        PlayerRoll();
+        StartCoroutine(PlayerRoll());
+        yield return new WaitUntil(() => rolled == true);
+        rolled = false;
+
         int playerDamage = GameManager.diceSideThrown;
         enemyController.ModifyHealth(-playerDamage);
 
-        EnemyTurn();
+        if (enemyController.GetHealth() <= 0)
+        {
+            EncounterController encounterController = gameObject.GetComponent<EncounterController>();
+            encounterController.StopEncounter(true);
+        } else
+        {
+            StartCoroutine(EnemyTurn());
+        }
     }
 
-    private void EnemyTurn()
+    private IEnumerator EnemyTurn()
     {
-        EnemyRoll();
+        StartCoroutine(EnemyRoll());
+        yield return new WaitUntil(() => rolled == true);
+        rolled = false;
+
+        int enemyDamage = GameManager.diceSideThrown;
+        playerStatsController.ModifyHealth(-enemyDamage);
+
+        if (playerStatsController.GetHealth() <= 0)
+        {
+            EncounterController encounterController = gameObject.GetComponent<EncounterController>();
+            encounterController.StopEncounter(false);
+        }
+        else
+        {
+            StartCoroutine(PlayerTurn());
+        }
     }
 }

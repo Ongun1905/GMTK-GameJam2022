@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class EncounterController : MonoBehaviour
 {
@@ -11,23 +12,27 @@ public class EncounterController : MonoBehaviour
     [SerializeField] Vector3 enemyEncounterPosition;
 
     [SerializeField] GameObject[] enemyPrefabs;
-    
+
+    private GameObject enemy;
     private IsometricCharacterRenderer isoRenderer;
+    private IsometricPlayerMovementController playerMovementController;
+    private PlayerStatsController playerStatsController;
     private int lastTileIndex;
 
     private void Start()
     {
         enemyDice.SetActive(false);
         isoRenderer = player.GetComponentInChildren<IsometricCharacterRenderer>();
-
-        StartCoroutine(TestStart());
+        playerMovementController = player.GetComponent<IsometricPlayerMovementController>();
+        playerStatsController = player.GetComponent<PlayerStatsController>();
     }
 
-    IEnumerator TestStart ()
+    private void Update()
     {
-        yield return new WaitForSeconds(0.1f);
-        StartEncounter(0);
-
+        if (Input.GetKeyDown("e"))
+        {
+            StartEncounter(playerMovementController.waypointIndex);
+        }
     }
 
     private void SetPlayerToEncounterPosition()
@@ -50,9 +55,31 @@ public class EncounterController : MonoBehaviour
         enemyDice.SetActive(true);
 
         SetPlayerToEncounterPosition();
-        GameObject enemy = SpawnRandomEnemy();
+        enemy = SpawnRandomEnemy();
 
         Encounter newEncounter = gameObject.AddComponent<Encounter>();
-        newEncounter.InitializeEncounter(enemy, enemyDice, playerDice);
+        newEncounter.InitializeEncounter(enemy, enemyDice, playerDice, player);
+    }
+
+    public void StopEncounter(bool encounterWon)
+    {
+        // Set encounter meta variables
+        GameManager.inEncounter = false;
+        enemyDice.SetActive(false);
+
+        if (encounterWon)
+        {
+            // Teleport the player back to their last position
+            player.transform.position = playerMovementController.waypoints[lastTileIndex].transform.position;
+            isoRenderer.SetDirection(new Vector2(0f, -0.5f));
+
+            // Increment the player's score
+            playerStatsController.IncrementScore(10);
+        } else
+        {
+            // Back to main menu (destroy all by swapping scenes)
+            Debug.Log("You died lmao");
+            SceneManager.LoadScene(0);
+        }
     }
 }

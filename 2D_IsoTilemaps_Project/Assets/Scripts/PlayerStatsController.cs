@@ -5,7 +5,7 @@ using TMPro;
 
 public class PlayerStatsController : MonoBehaviour
 {
-    public int playerMaxHealth = 10;
+    public int playerMaxHealth = 20;
     public int playerHealth;
     public int playerScore = 0;
 
@@ -23,7 +23,7 @@ public class PlayerStatsController : MonoBehaviour
     {
         if (Input.GetKeyDown("x"))
         {
-            TakeDamage(1);
+            ModifyHealth(-1);
         }
 
         if (Input.GetKeyDown("s"))
@@ -32,18 +32,22 @@ public class PlayerStatsController : MonoBehaviour
         }
     }
 
-    void TakeDamage(int damage)
+    public void ModifyHealth(int health)
     {
-        playerHealth -= damage;
+        playerHealth += health;
         if (playerHealth <= 0)
         {
             playerHealth = 0;
-            Debug.Log("Player health is 0, queue game end!");
         }
         healthBar.SetHealth(playerHealth);
     }
 
-    void IncrementScore(int score)
+    public int GetHealth()
+    {
+        return playerHealth;
+    }
+
+    public void IncrementScore(int score)
     {
         playerScore += score;
         sText.text = $"{playerScore:00000}";
