@@ -26,11 +26,14 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       if(playerController.waypointIndex >
-            playerStartWaypoint + diceSideThrown) {
-            playerStartWaypoint = playerController.waypointIndex - 1;
-       }
-
+        if (playerController != null)
+        {
+            if (playerController.waypointIndex >
+                 playerStartWaypoint + diceSideThrown)
+            {
+                playerStartWaypoint = playerController.waypointIndex - 1;
+            }
+        }
     }
 
     public IEnumerator MovePlayer()
