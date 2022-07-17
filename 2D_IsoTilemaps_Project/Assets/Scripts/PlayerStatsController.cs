@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class PlayerStatsController : MonoBehaviour
 {
@@ -9,9 +10,11 @@ public class PlayerStatsController : MonoBehaviour
     public int playerScore = 0;
 
     public HealthBarController healthBar;
+    public TextMeshProUGUI sText;
 
     void Start()
     {
+        // Set up player health
         playerHealth = playerMaxHealth;
         healthBar.SetMaxHealth(playerMaxHealth);
     }
@@ -43,5 +46,6 @@ public class PlayerStatsController : MonoBehaviour
     void IncrementScore(int score)
     {
         playerScore += score;
+        sText.text = $"{playerScore:00000}";
     }
 }
